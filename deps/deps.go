@@ -73,8 +73,5 @@ func (d *Dependencies) Close() {
 
 func getenv(name string) string {
 	key := os.Getenv(name)
-	if key == "" {
-		panic("missing env key: " + name)
-	}
 	return key
 }

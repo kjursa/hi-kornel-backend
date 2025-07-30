@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"my-go-backend/deps"
-	"my-go-backend/route"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -11,17 +9,30 @@ import (
 func main() {
 	app := fiber.New()
 
-	deps := deps.NewDependencies()
-	deps.Init()
-	defer deps.Close()
+	// deps := deps.NewDependencies()
+	// deps.Init()
+	// defer deps.Close()
 
-	api := app.Group("/api")
-	route.AuthRoute(api, deps)
-	route.SyncRoute(api, deps)
-	route.ChatRoute(api, deps)
-	route.ContactRoute(api, deps)
+	// api := app.Group("/api")
+	// route.AuthRoute(api, deps)
+	// route.SyncRoute(api, deps)
+	// route.ChatRoute(api, deps)
+	// route.ContactRoute(api, deps)
 
-	fmt.Print("elapsed:" + deps.Port)
+	// fmt.Print("elapsed:" + deps.Port)
 
-	app.Listen(":" + deps.Port)
+	port := os.Getenv("PORT")
+
+	app.Get("/env", func(c *fiber.Ctx) error {
+		key := c.Query("key")
+		if key == "" {
+			return c.SendString("No KEY!")
+		}
+
+		value := os.Getenv(key)
+
+		return c.SendString(key + " = " + value)
+	})
+
+	app.Listen(":" + port)
 }
