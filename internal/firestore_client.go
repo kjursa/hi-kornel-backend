@@ -21,6 +21,13 @@ func NewFirestoreClient(config FirestoreConfig) *FirestoreClient {
 
 func (f *FirestoreClient) Init() error {
 	ctx := context.Background()
+
+	if f.config.Path == "" {
+		client, err := firestore.NewClientWithDatabase(ctx, f.config.ProjectId, f.config.DatabaseId)
+		f.firestoreClient = client
+		return err
+	}
+
 	op := option.WithCredentialsFile(f.config.Path)
 	client, err := firestore.NewClientWithDatabase(ctx, f.config.ProjectId, f.config.DatabaseId, op)
 	f.firestoreClient = client

@@ -1,6 +1,7 @@
 package deps
 
 import (
+	"fmt"
 	"my-go-backend/handlers"
 	"my-go-backend/internal"
 	"my-go-backend/middleware"
@@ -22,7 +23,7 @@ type Dependencies struct {
 }
 
 var secret = getenv("SECRET")
-var tokenDuration = 60 * time.Minute
+var tokenDuration = 30 * time.Minute
 var firestorePath = getenv("FS_PATH")
 var firestoreProjectId = getenv("FS_PROJECT_ID")
 var firestoreDatabaseId = getenv("FS_DB_ID")
@@ -64,7 +65,10 @@ func NewDependencies() *Dependencies {
 }
 
 func (d *Dependencies) Init() {
-	d.FirestoreClient.Init()
+	err := d.FirestoreClient.Init()
+	if err != nil {
+		fmt.Print("FIRESTORE INIT ERROR !!")
+	}
 }
 
 func (d *Dependencies) Close() {
