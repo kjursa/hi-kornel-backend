@@ -10,6 +10,7 @@ func AuthRoute(app fiber.Router, deps *deps.Dependencies) {
 	auth := app.Group("/auth")
 	auth.Post("/register", deps.AuthHandler.Register)
 	auth.Post("/refresh", deps.AuthHandler.RefreshToken)
+	auth.Post("/ping", deps.AuthHandler.Ping)
 }
 
 func SyncRoute(app fiber.Router, deps *deps.Dependencies) {

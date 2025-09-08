@@ -84,3 +84,9 @@ func (h *AuthHandler) RefreshToken(c *fiber.Ctx) error {
 
 	return c.JSON(res)
 }
+
+func (h *AuthHandler) Ping(c *fiber.Ctx) error {
+	return c.JSON(fiber.Map{
+		"message": "pong",
+	})
+}
